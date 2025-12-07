@@ -7,7 +7,7 @@ const {
     updateTask, 
     deleteTask,
     deleteAllTask
-} = require('../controllers/tasks')
+} = require('../controllers/tasks/tasks.js')
 
 const authenticateJWT = require('../middlewares/authentication/authentication.js')
 
