@@ -54,7 +54,7 @@ const updateUser = asyncWrapper(async (req, res, next) => {
         return res.status(404).json({msg: 'User not found'})
     }
 
-    const validUpdates = ["username", "email", "password", "role"]
+    const validUpdates = ["username", "role"]
     const update = {}
     for (let b in req.body){
         if (validUpdates.includes(b)){
