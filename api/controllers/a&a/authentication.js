@@ -1,8 +1,8 @@
-const {generateAccessToken, generateRefreshToken} = require('../utils/generate_token.js')
-const User = require('../models/users.js')
-const asyncWrapper = require('../middlewares/wrappers/async.js')
+const {generateAccessToken, generateRefreshToken} = require('../../utils/generate_token.js')
+const User = require('../../models/users.js')
+const asyncWrapper = require('../../middlewares/wrappers/async.js')
 const jwt = require('jsonwebtoken')
-const logger = require('../utils/logger.js')
+const logger = require('../../utils/logger.js')
 
 const register = asyncWrapper (async (req, res, next) => {
     const {username, password, email, role} = req.body

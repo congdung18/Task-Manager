@@ -5,7 +5,7 @@ const {
     getAllUser,
     deleteUser,
     updateUser
-} = require('../controllers/admin.js')
+} = require('../controllers/admin/admin.js')
 
 const authorizeJWT = require('../middlewares/authorization/authorize_role.js')
 const queryBuilder = require('../middlewares/query/query.js')
