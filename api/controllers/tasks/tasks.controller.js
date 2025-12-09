@@ -1,5 +1,5 @@
 const asyncWrapper = require('../../middlewares/wrappers/async.js')
-const Task = require('../../models/tasks.js')
+const Task = require('../../models/tasks.model.js')
 const dayjs = require('dayjs')
 
 const getAllTask = asyncWrapper(async (req, res, next) => {

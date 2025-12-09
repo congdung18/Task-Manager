@@ -1,10 +1,13 @@
 const express = require('express')
 const app = express()
-const tasks = require('./routes/tasks.js')
-const admin = require('./routes/admin.js')
+
+const tasks = require('./routes/tasks.route.js')
+const admin = require('./routes/admin.route.js')
+const authRouter = require('./routes/authentication.route.js')
+
 const {errorHandling} = require('./middlewares/errors/error_handling.js')
-const authRouter = require('./routes/authentication.js')
 const morganMiddleware = require('./middlewares/logging/morgan.js')
+
 const helmet = require('helmet')
 const cors = require('cors')
 // const rateLimiterMiddleware = require('./middlewares/rate_limiter.js')

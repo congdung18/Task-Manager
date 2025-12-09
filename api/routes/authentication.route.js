@@ -6,7 +6,7 @@ const {
     login,
     refresh,
     logout
-} = require('../controllers/a&a/authentication.js')
+} = require('../controllers/a&a/authentication.controller.js')
 
 const {
     registerValidator,
