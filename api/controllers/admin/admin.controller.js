@@ -1,5 +1,5 @@
 const asyncWrapper = require('../../middlewares/wrappers/async.js')
-const User = require('../../models/users.js')
+const User = require('../../models/users.model.js')
 
 const higherThanAdmin = ["owner"]
 

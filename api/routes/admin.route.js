@@ -5,12 +5,12 @@ const {
     getAllUser,
     deleteUser,
     updateUser
-} = require('../controllers/admin/admin.js')
+} = require('../controllers/admin/admin.controller.js')
 
 const authorizeJWT = require('../middlewares/authorization/authorize_role.js')
 const queryBuilder = require('../middlewares/query/query.js')
 const requireLogin = require('../middlewares/authentication/require_login.js')
-const authenticateJWT = require('../middlewares/authentication/authentication.js')
+const authenticateJWT = require('../middlewares/authentication/authentication.middleware.js')
 
 router.use(authenticateJWT)
 router.use(requireLogin)
