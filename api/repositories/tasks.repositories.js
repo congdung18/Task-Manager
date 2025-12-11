@@ -33,4 +33,4 @@ class TaskRepositories{
     }
 }
 
-module.exports = new TaskRepositories()
+module.exports = TaskRepositories
