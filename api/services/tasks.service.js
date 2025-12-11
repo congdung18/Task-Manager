@@ -1,42 +1,43 @@
-const TaskRepositories = require('../repositories/tasks.repositories.js')
+const TaskRepositoriesInstanceClass = require('../repositories/tasks.repositories.js')
+const TaskRepositoriesInstance = new TaskRepositoriesInstanceClass()
 
 class TaskServices{
     async getAllTasks(filter, sort, skip, limit){
-        const result = await TaskRepositories.getAllTasks(filter, sort, skip, limit)
-        const total = await TaskRepositories.getTotal(filter)
+        const data = await TaskRepositoriesInstance.getAllTasks(filter, sort, skip, limit)
+        const total = await TaskRepositoriesInstance.getTotal(filter)
 
-        return {result, total}
+        return {data, total}
     }
 
     async createTask(body){
-        const result = await TaskRepositories.createTask(body)
+        const data = await TaskRepositoriesInstance.createTask(body)
 
-        return {result}
+        return {data}
     }
 
     async getTask(filter){
-        const result = await TaskRepositories.getTask(filter)
+        const data = await TaskRepositoriesInstance.getTask(filter)
 
-        return {result}
+        return {data}
     }
 
     async updateTask(filter, update){
-        const result = await TaskRepositories.updateTask(filter, update)
+        const data = await TaskRepositoriesInstance.updateTask(filter, update)
 
-        return {result}
+        return {data}
     }
 
     async deleteTask(filter){
-        const result = await TaskRepositories.deleteTask(filter)
+        const data = await TaskRepositoriesInstance.deleteTask(filter)
 
-        return {result}
+        return {data}
     }
 
     async deleteAllTasks(filter){
-        const result = await TaskRepositories.deleteAllTasks(filter)
+        const data = await TaskRepositoriesInstance.deleteAllTasks(filter)
 
-        return {result}
+        return {data}
     }
 }
 
-module.exports = new TaskServices()
+module.exports = TaskServices
