@@ -1,119 +1,65 @@
-const asyncWrapper = require('../../middlewares/wrappers/async.js')
-const Task = require('../../models/tasks.model.js')
-const dayjs = require('dayjs')
+const TaskServiceClass = require('../../services/tasks.service.js')
+const TaskServiceInstance = new TaskServiceClass()
 
-const getAllTask = asyncWrapper(async (req, res, next) => {
-    const filter = req.filter || {}
-    const sort = req.sort || {}
-    const {limit, page, skip} = req.pagination
+class TaskController{
+    async getAllTasks(req, res){
+        const filter = req.filter || {}
+        const sort = req.sort || {}
+        const {limit, skip, page} = req.pagination
 
-    filter.user = req.user ? req.user.id : null
+        const {data, total} = await TaskServiceInstance.getAllTasks(filter, sort, skip, limit)
 
-    const tasks = await Task.find(filter).sort(sort).skip(skip).limit(limit).lean()
-
-    if (!tasks.length) {
-        return res.status(200).json({msg: 'No tasks available'})
+        return res.status(200).json({total, page, limit, data})
     }
 
-    const formattedTasks = tasks.map(t => ({    
-        ...t,
-        expiry_day: dayjs(t.expiry_date).format("DD/MM/YYYY"),
-        expiry_time: dayjs(t.expiry_date).format("HH:mm:ss")
-    }))
+    async createTask(req, res){
+        const userID = req.user ? req.user.id : null
+        const body = {... req.body, user: userID}
 
-    const total = await Task.countDocuments(filter)
+        const {data} = await TaskServiceInstance.createTask(body)
 
-    return res.status(200).json({total, page, limit, formattedTasks})
-})
-
-const createTask = asyncWrapper(async (req, res, next) => {
-    if (!req.body || Object.keys(req.body).length === 0) {
-        return res.status(400).json({msg: 'No content provided'})
+        return res.status(200).json({data})
     }
 
-    const userId = req.user ? req.user.id : null
+    async deleteAllTasks(req, res){
+        const userID = req.user ? req.user.id : null
+        const body = {... req.filter, user: userID}
 
-    const now = new Date()
-    const expiry = new Date(req.body.expiry_date)
-    if (isNaN(expiry.getTime()) || expiry < now){
-        return res.status(400).json({msg: 'Invalid expiry date'})
+        const {data} = await TaskServiceInstance.deleteAllTasks(body)
+
+        return res.status(200).json({data})
     }
 
-    const task = await Task.create({ ...req.body, user: userId })
-    return res.status(201).json({task})
-})
+    async getTask(req, res){
+        const taskID = req.params.id
+        const userID = req.user ? req.user.id : null
+        const filter = {_id: taskID, user: userID}
 
-const getTask = asyncWrapper(async (req, res, next) => {
-    const {id: taskID} = req.params
-    const filter = req.user ? { _id: taskID, user: req.user.id } : { _id: taskID, user: null }
-    const task = await Task.findOne(filter);
+        const {data} = await TaskServiceInstance.getTask(filter)
 
-    if (!task) {
-        return res.status(404).json({msg: 'Task not found'})
+        return res.status(200).json({data})
     }
 
-    const formattedTasks = tasks.map(t => ({    
-        ...t,
-        expiry_day: dayjs(t.expiry_date).format("DD:MM:YYYY"),
-        expiry_time: dayjs(t.expiry_date).format("HH:mm:ss")
-    }))
+    async updateTask(req, res){
+        const taskID = req.params.id
+        const userID = req.user ? req.user.id : null
+        const filter = {_id: taskID, user: userID}
+        const update = req.body || {}
 
-    return res.status(200).json({task: formattedTasks})
-})
+        const {data} = await TaskServiceInstance.updateTask(filter, update)
 
-const updateTask = asyncWrapper(async (req, res, next) => {
-    const {id: taskID} = req.params
+        return res.status(200).json({data})
+    } 
 
-    if (req.body.expiry_date){
-        const expire = new Date(req.body.expiry_date)
-        const now = new Date()
+    async deleteTask(req, res){
+        const taskID = req.params.id
+        const userID = req.user ? req.user.id : null
+        const filter = {_id: taskID, user: userID}
 
-        if (isNaN(expire.getTime()) || expire < now){
-            return res.status(400).json({msg: 'Invalid time'})
-        }
+        const {data} = await TaskServiceInstance.deleteTask(filter)
+
+        return res.status(200).json({data})
     }
-    
-    const filter = req.user ? { _id: taskID, user: req.user.id} : { _id: taskID, user: null}
-    const allowedUpdates = ["name", "expiry_date", "status"]
-    const update = {}
-    for (let b in req.body){
-        if (allowedUpdates.includes(b)){
-            update[b] = req.body[b]
-        }
-    }
-    const task = await Task.findOneAndUpdate(filter, update, {
-        new: true,
-        runValidators: true
-    })
+}
 
-    if (!task) {
-        return res.status(404).json({msg: 'Task not found'})
-    }
-
-    return res.status(200).json({task})
-})
-
-const deleteTask = asyncWrapper(async (req, res, next) => {
-    const {id: taskID} = req.params
-    const filter = req.user ? { _id: taskID, user: req.user.id } : { _id: taskID, user: null }
-    const task = await Task.findByIdAndDelete(filter)
-
-    if (!task) {
-        return res.status(404).json({msg: 'Task not found'})
-    }
-
-    return res.status(204).json({task})
-})
-
-const deleteAllTask = asyncWrapper(async (req, res, next) => {
-    const filter = { ...req.filter }
-
-    filter.user = req.user ? req.user.id : null
-
-    const task = await Task.deleteMany(filter)
-
-    const userLabel = req.user ? req.user.username : "guest"
-    return res.status(200).json({msg: `Deleted all tasks from ${userLabel}`})
-})
-
-module.exports = {getAllTask, createTask, getTask, updateTask, deleteTask, deleteAllTask}
+module.exports = TaskController
