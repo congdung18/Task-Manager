@@ -1,4 +1,4 @@
-import CustomAPIError from "./custom_error"
+import {CustomAPIError} from "./custom_error"
 
 export abstract class AuthErrors extends CustomAPIError {
   public readonly authToken: string | null
@@ -6,7 +6,8 @@ export abstract class AuthErrors extends CustomAPIError {
   constructor(message: string, statusCode: number, errorCode: string, authToken?: string | null) {
     super(message, statusCode, errorCode)
     this.authToken = authToken ?? null
-    Object.setPrototypeOf(this, new.target.prototype) // đảm bảo instanceof
+
+    Object.setPrototypeOf(this, new.target.prototype)
   }
 }
 

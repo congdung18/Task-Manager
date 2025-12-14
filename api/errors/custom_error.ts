@@ -1,4 +1,4 @@
-abstract class CustomAPIError extends Error {
+export abstract class CustomAPIError extends Error {
   public readonly
   statusCode: number
   errorCode: string
@@ -14,5 +14,3 @@ abstract class CustomAPIError extends Error {
     Object.setPrototypeOf(this, new.target.prototype)
   }
 }
-
-export default CustomAPIError
