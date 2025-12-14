@@ -1,6 +1,7 @@
+import { create } from "../models/tasks.model"
 import {CustomAPIError} from "./custom_error"
 
-export abstract class AuthErrors extends CustomAPIError {
+export abstract class AuthError extends CustomAPIError {
   public readonly authToken: string | null
 
   constructor(message: string, statusCode: number, errorCode: string, authToken?: string | null) {
@@ -11,44 +12,58 @@ export abstract class AuthErrors extends CustomAPIError {
   }
 }
 
-export class InvalidCredentials extends AuthErrors {
-  constructor(message: string = 'Invalid username or password', authToken?: string | null) {
-    super(message, 401, "AUTH_INVALID_CREDENTIALS", authToken)
-    this.name = "InvalidCredentials"
-  }
+function createAuthError(
+    name: string,
+    defaultMessage: string,
+    statusCode: number,
+    errorCode: string
+) {
+    return class extends AuthError {
+        constructor(message: string = defaultMessage, userID?: string | null) {
+            super(message, statusCode, errorCode, userID);
+            this.name = name;
+        }
+    };
 }
 
-export class MissingToken extends AuthErrors {
-  constructor(message: string = 'No authentication token provided', authToken?: string | null) {
-    super(message, 401, "AUTH_TOKEN_MISSING", authToken)
-    this.name = "MissingToken"
-  }
-}
+export const InvalidCredentials = createAuthError(
+  "InvalidCredentials",
+  "Invalid username or password",
+  401,
+  "AUTH_INVALID_CREDENTIALS"
+)
 
-export class ExpiredToken extends AuthErrors {
-  constructor(message: string = 'Authentication token expired', authToken?: string | null) {
-    super(message, 401, "AUTH_TOKEN_EXPIRED", authToken)
-    this.name = "ExpiredToken"
-  }
-}
+export const MissingToken = createAuthError(
+  "MissingToken",
+  "No authentication token provided",
+  401,
+  "AUTH_TOKEN_MISSING"
+)
 
-export class InvalidToken extends AuthErrors {
-  constructor(message: string = 'Authentication token is not eligible', authToken?: string | null) {
-    super(message, 401, "AUTH_TOKEN_INVALID", authToken)
-    this.name = "InvalidToken"
-  }
-}
+export const ExpiredToken = createAuthError(
+  "ExpiredToken",
+  'Authentication token expired',
+  401,
+  "AUTH_TOKEN_EXPIRED"
+)
 
-export class AccountDeactivated extends AuthErrors {
-  constructor(message: string = 'Account is deactivated', authToken?: string | null) {
-    super(message, 403, "AUTH_ACCOUNT_DEACTIVATED", authToken)
-    this.name = "AccountDeactivated"
-  }
-}
+export const InvalidToken = createAuthError(
+  "InvalidToken",
+  'Authentication token is not eligible',
+  401,
+  "AUTH_TOKEN_INVALID"
+)
 
-export class Forbidden extends AuthErrors {
-  constructor(message: string = 'Forbidden route', authToken?: string | null) {
-    super(message, 403, "AUTH_ROUTE_FORBIDDEN", authToken)
-    this.name = "Forbidden"
-  }
-}
+export const AccountDeactivated = createAuthError(
+  "AccountDeactivated",
+  'Account is deactivated',
+  403,
+  "AUTH_ACCOUNT_DEACTIVATED"
+)
+
+export const Forbidden = createAuthError(
+  "Forbidden",
+  'Forbidden route',
+  403,
+  "AUTH_ROUTE_FORBIDDEN"
+)
