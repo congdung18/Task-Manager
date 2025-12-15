@@ -1,4 +1,3 @@
-import { create } from "../models/tasks.model"
 import {CustomAPIError} from "./custom_error"
 
 export abstract class AuthError extends CustomAPIError {
