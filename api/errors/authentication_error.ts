@@ -27,7 +27,7 @@ function createAuthError(
 
 export const InvalidCredentials = createAuthError(
   "InvalidCredentials",
-  "Invalid username or password",
+  "Invalid personal information",
   401,
   "AUTH_INVALID_CREDENTIALS"
 )
