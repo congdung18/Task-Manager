@@ -7,10 +7,10 @@ import tasks from './routes/tasks.route';
 import admin from './routes/admin.route';
 import auth from './routes/authentication.route';
 
-import errorHandling from './middlewares/errors/error_handling';
-import morganMiddleware from './middlewares/logging/morgan';
+import { errorHandling } from './middlewares/errors/error_handling';
+import { morganMiddleware } from './middlewares/logging/morgan';
 
-const app: Application = express();
+export const app: Application = express();
 
 app.use(helmet());
 app.use(cors({
@@ -26,5 +26,3 @@ app.use('/api/v1/tasks', tasks);
 app.use('/api/v1/admin', admin);
 
 app.use(errorHandling);
-
-export default app
