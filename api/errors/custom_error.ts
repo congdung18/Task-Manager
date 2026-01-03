@@ -6,11 +6,11 @@ export abstract class CustomAPIError extends Error {
 
   constructor(message: string, statusCode: number, errorCode: string) {
     super(message)
-    this.statusCode = statusCode
-    this.errorCode = errorCode
-    this.timestamp = new Date().toISOString()
-    this.name = 'CustomAPIError'
+    this.name = new.target.name;
+    this.statusCode = statusCode;
+    this.errorCode = errorCode;
+    this.timestamp = new Date().toISOString();
 
-    Object.setPrototypeOf(this, new.target.prototype)
+    Object.setPrototypeOf(this, new.target.prototype);
   }
 }
