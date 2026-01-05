@@ -1,27 +1,7 @@
 import { Request, Response, NextFunction } from "express"
 import { CustomAPIError } from "../../errors/custom_error"
 import logger from "../../utils/logger"
-
-interface ErrorResponse{
-  success: boolean,
-  name: string,
-  msg: string,
-  code?: string,
-  stack?: string
-}
-
-const createErrResponse = (
-  err: Error,
-  options?:{
-    msg: string,
-    code?: string,
-    stack?: string
-  }
-): ErrorResponse => ({
-  success: false,
-  name: err.name,
-  ...options,
-})
+import { createErrResponse } from "../../interfaces/errors/error_response"
 
 export const errorHandling = (
   err: unknown,
