@@ -1,5 +1,5 @@
-import {body, ValidationChain} from 'express-validator'
-import { createMessage } from './validation_message'
+import { body, ValidationChain } from 'express-validator'
+import { createMessage } from '../interfaces/validators/validation_message'
 
 export const requestBody: ValidationChain[] = [
     body("expiry_date").isISO8601().withMessage(createMessage('Invalid expiry date type'))

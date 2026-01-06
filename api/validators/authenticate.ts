@@ -1,5 +1,5 @@
-import {body, ValidationChain} from 'express-validator'
-import { createMessage } from './validation_message'
+import { body, ValidationChain } from 'express-validator'
+import { createMessage } from '../interfaces/validators/validation_message'
 
 export const registerValidator: ValidationChain[] = [
     body("username").notEmpty().withMessage(createMessage("Must have a username")),
