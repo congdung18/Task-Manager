@@ -2,3 +2,4 @@
 .env
 *.txt
 /logs
+/environment
