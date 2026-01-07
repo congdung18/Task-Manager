@@ -1,7 +1,7 @@
 const TaskRepositoriesInstanceClass = require('../repositories/tasks.repositories.js')
 const TaskRepositoriesInstance = new TaskRepositoriesInstanceClass()
 
-class TaskServices{
+export class TaskServices{
     async getAllTasks(filter, sort, skip, limit){
         const data = await TaskRepositoriesInstance.getAllTasks(filter, sort, skip, limit)
         const total = await TaskRepositoriesInstance.getTotal(filter)
