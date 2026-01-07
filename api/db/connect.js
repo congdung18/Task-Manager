@@ -1,7 +1,7 @@
 const path = require('path')
 
 require('dotenv').config({
-    path: path.resolve(__dirname, '../environment/.env')
+    path: path.resolve(__dirname, '../environment/.env.development')
 })
 const mongoose = require('mongoose')
 

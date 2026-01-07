@@ -1,8 +1,10 @@
-const TaskServiceClass = require('../../services/tasks.service.js')
-const TaskServiceInstance = new TaskServiceClass()
+import { Request, Response, NextFunction } from 'express'
 
-class TaskController{
-    async getAllTasks(req, res){
+import { TaskServices } from '../../services/tasks.service'
+const TaskServiceInstance = new TaskServices()
+
+export class TaskController{
+    async getAllTasks(req: Request, res: Response){
         const filter = req.filter || {}
         const sort = req.sort || {}
         const {limit, skip, page} = req.pagination
@@ -12,7 +14,7 @@ class TaskController{
         return res.status(200).json({total, page, limit, data})
     }
 
-    async createTask(req, res){
+    async createTask(req: Request, res: Response){
         const userID = req.user ? req.user.id : null
         const body = {... req.body, user: userID}
 
@@ -21,7 +23,7 @@ class TaskController{
         return res.status(200).json({data})
     }
 
-    async deleteAllTasks(req, res){
+    async deleteAllTasks(req: Request, res: Response){
         const userID = req.user ? req.user.id : null
         const body = {... req.filter, user: userID}
 
@@ -30,7 +32,7 @@ class TaskController{
         return res.status(200).json({data})
     }
 
-    async getTask(req, res){
+    async getTask(req: Request, res: Response){
         const taskID = req.params.id
         const userID = req.user ? req.user.id : null
         const filter = {_id: taskID, user: userID}
@@ -40,7 +42,7 @@ class TaskController{
         return res.status(200).json({data})
     }
 
-    async updateTask(req, res){
+    async updateTask(req: Request, res: Response){
         const taskID = req.params.id
         const userID = req.user ? req.user.id : null
         const filter = {_id: taskID, user: userID}
@@ -51,7 +53,7 @@ class TaskController{
         return res.status(200).json({data})
     } 
 
-    async deleteTask(req, res){
+    async deleteTask(req: Request, res: Response){
         const taskID = req.params.id
         const userID = req.user ? req.user.id : null
         const filter = {_id: taskID, user: userID}

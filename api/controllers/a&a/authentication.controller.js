@@ -4,6 +4,10 @@ const asyncWrapper = require('../../middlewares/wrappers/async.js')
 const jwt = require('jsonwebtoken')
 const logger = require('../../utils/logger.js')
 
+class UserController{
+
+}
+
 const register = asyncWrapper (async (req, res, next) => {
     const {username, password, email, role} = req.body
     let assignedRole = role ? role : "user"
