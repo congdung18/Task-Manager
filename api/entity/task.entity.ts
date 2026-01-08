@@ -1,3 +1,4 @@
+import { Types } from "mongoose"
 import { TaskPriority, TaskStatus } from "../interfaces/model/task.interface";
 
 export class Task{
@@ -7,5 +8,6 @@ export class Task{
     description: string | null;
     status: TaskStatus;
     priority: TaskPriority;
-    createdAt: Date
+    createdAt: Date;
+    user: Types.ObjectId | null;
 }
