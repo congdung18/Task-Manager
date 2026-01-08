@@ -2,7 +2,7 @@ import { Types } from "mongoose"
 import { TaskPriority, TaskStatus } from "../interfaces/model/task.interface";
 
 export class Task{
-    id: string;
+    _id: Types.ObjectId;
     name: string;
     expiry_date: Date;
     description: string | null;
