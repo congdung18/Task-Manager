@@ -1,4 +1,4 @@
-import { Document } from 'mongoose'
+import { Document, Types } from 'mongoose'
 
 export enum TaskStatus {
     PENDING = "pending",
@@ -15,8 +15,11 @@ export enum TaskPriority {
 }
 
 export interface ITask extends Document{
-    name: string
-    expiry_date: Date
-    status: "pending" | "in-progress" | "done" | "overdue"
-    user: string | null
+    name: string;
+    expiry_date: Date;
+    description: string | null;
+    status: TaskStatus;
+    priority: TaskPriority;
+    createdAt: Date;
+    user: Types.ObjectId | null;
 }
