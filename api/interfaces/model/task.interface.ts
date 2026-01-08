@@ -15,6 +15,7 @@ export enum TaskPriority {
 }
 
 export interface ITask extends Document{
+    _id: Types.ObjectId;
     name: string;
     expiry_date: Date;
     description: string | null;
