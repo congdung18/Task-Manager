@@ -1,4 +1,4 @@
-import mongoose, { Schema, model }  from "mongoose"
+import mongoose, { Schema, Types }  from "mongoose"
 import { ITask } from "../interfaces/model/task.interface"
 
 const TaskSchema = new Schema<ITask>({
@@ -13,13 +13,17 @@ const TaskSchema = new Schema<ITask>({
         default: Date.now()
     },
 
+    description: {
+        type: String
+    },
+
     status: {
         type: String,
         enum: ["pending", "in-progress", "done", "overdue"]
     },
 
     user: {
-        type: String,
+        type: Schema.Types.ObjectId,
         default: null
     }
 });
