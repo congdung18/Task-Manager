@@ -26,6 +26,10 @@ const TaskSchema = new Schema<ITask>({
         type: Schema.Types.ObjectId,
         default: null
     }
-});
+},
+    {
+        timestamps: true
+    }
+);
 
 export const TaskModel = mongoose.model<ITask>("Task", TaskSchema);
