@@ -9,5 +9,6 @@ export class Task{
     status: TaskStatus;
     priority: TaskPriority;
     createdAt: Date;
+    updatedAt: Date;
     user: Types.ObjectId | null;
 }

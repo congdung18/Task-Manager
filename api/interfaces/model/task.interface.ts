@@ -22,5 +22,6 @@ export interface ITask extends Document{
     status: TaskStatus;
     priority: TaskPriority;
     createdAt: Date;
+    updatedAt: Date;
     user: Types.ObjectId | null;
 }
