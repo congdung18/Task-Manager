@@ -1,6 +1,6 @@
 import mongoose, { Schema, model } from "mongoose"
 import bcrypt from "bcryptjs"
-import { IUser } from "../interfaces/model/user.interface"
+import { IUser, UserRole } from "../interfaces/model/user.interface"
 
 const UserSchema = new Schema<IUser>({
     username: {
@@ -28,10 +28,14 @@ const UserSchema = new Schema<IUser>({
 
     role: {
         type: String,
-        enum: ['user', 'admin', 'owner'],
-        default: 'user'
+        enum: Object.values(UserRole),
+        default: UserRole.USER
     }
-})
+},
+    {
+        timestamps: true    
+    }
+);
 
 UserSchema.pre("save", async function(){
     if (!this.isModified){
