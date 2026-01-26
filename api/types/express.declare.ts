@@ -5,12 +5,13 @@ declare global{
     namespace Express{
         interface Request{
             user?: UserPayload | null,
-            filter?: TaskFilter,
+            // "filter" has naming collision with a built in method of nodejs for req.
+            queryFilter?: TaskFilter,
             sort?: Record<"status" | "expiry_date", -1 | 1>,
             pagination?:{
-                page: Number,
-                limit: Number,
-                skip: Number
+                page: number,
+                limit: number,
+                skip: number
             }
         }
     }
